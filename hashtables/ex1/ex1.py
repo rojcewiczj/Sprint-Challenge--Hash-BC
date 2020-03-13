@@ -8,10 +8,34 @@ from hashtables import (HashTable,
 
 def get_indices_of_item_weights(weights, length, limit):
     ht = HashTable(16)
-
-    """
-    YOUR CODE HERE
-    """
+    def makeTuple(x , y):
+        return (x, y)
+    if len(weights) == 1:
+        return None
+    for index, item in enumerate(weights):
+        hash_table_insert(ht, item, index )
+        if hash_table_retrieve(ht, limit - item) is not None:
+            firstAnswer = index
+            firstItem = item
+            limit = limit - item
+      
+       
+    for index, item in enumerate(weights):
+        if limit - item == 0 and index != firstAnswer:
+            # print(limit)
+            secondAnswer = index
+            secondItem = item
+        
+            # print(secondAnswer)
+    if firstAnswer is not None and secondAnswer is not None:
+        if firstAnswer < secondAnswer:
+            answer = makeTuple(secondAnswer, firstAnswer)
+            return answer
+        else:
+            answer = makeTuple(firstAnswer, secondAnswer)
+            return answer
+    else:
+        return None
 
     return None
 

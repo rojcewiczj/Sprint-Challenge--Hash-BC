@@ -6,7 +6,7 @@ import sys
 from uuid import uuid4
 
 from timeit import default_timer as timer
-
+import json
 import random
 
 
@@ -21,11 +21,12 @@ def proof_of_work(last_proof):
     """
 
     start = timer()
-
+    print(last_proof)
     print("Searching for next proof")
     proof = 0
     #  TODO: Your code here
-
+    while valid_proof(last_proof, proof) is False:
+        proof += 47
     print("Proof found: " + str(proof) + " in " + str(timer() - start))
     return proof
 
@@ -38,10 +39,13 @@ def valid_proof(last_hash, proof):
 
     IE:  last_hash: ...AE9123456, new hash 123456E88...
     """
+    new = f'{proof}'.encode()
+    last = f'{last_hash}'.encode()
+    new_hash = hashlib.sha256(new).hexdigest()
+    last_hashing = hashlib.sha256(last).hexdigest()
+    return new_hash[:6] == last_hashing[-6:]
 
-    # TODO: Your code here!
-    pass
-
+    
 
 if __name__ == '__main__':
     # What node are we interacting with?
@@ -78,3 +82,4 @@ if __name__ == '__main__':
             print("Total coins mined: " + str(coins_mined))
         else:
             print(data.get('message'))
+
